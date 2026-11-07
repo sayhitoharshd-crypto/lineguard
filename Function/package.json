@@ -1,0 +1,11 @@
+{
+  "name": "lineguard-functions",
+  "description": "Trusted backend for LineGuard moderation, voting and reputation",
+  "main": "index.js",
+  "engines": { "node": "20" },
+  "scripts": { "lint": "node --check index.js" },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0"
+  }
+}
