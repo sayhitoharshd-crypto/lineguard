@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /evidence/{uid}/{file} {
+      // Public read is required for guest Reels. Evidence uploads must be small and owned by uploader.
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.size < 25 * 1024 * 1024
+        && (request.resource.contentType in ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/quicktime']);
+    }
+  }
+}
