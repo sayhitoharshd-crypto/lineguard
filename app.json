@@ -1,51 +1,25 @@
+
 {
   "expo": {
     "name": "LineGuard",
     "slug": "lineguard",
     "version": "1.0.0",
-    "scheme": "lineguard",
     "orientation": "portrait",
-    "icon": "./Assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "icon": "./Assets/icon.png",
     "splash": {
       "image": "./Assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#7c3aed"
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "android": {
-      "package": "com.lineguard.app",
-      "permissions": [
-        "CAMERA",
-        "RECORD_AUDIO",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "READ_MEDIA_IMAGES",
-        "READ_MEDIA_VIDEO"
-      ]
-    },
-    "ios": {
-      "bundleIdentifier": "com.lineguard.app",
-      "infoPlist": {
-        "NSCameraUsageDescription": "LineGuard uses the camera to capture evidence.",
-        "NSMicrophoneUsageDescription": "LineGuard records audio with video evidence.",
-        "NSPhotoLibraryUsageDescription": "LineGuard lets you attach photos and videos.",
-        "NSLocationWhenInUseUsageDescription": "LineGuard uses your location to tag the queue."
-      }
+      "package": "com.arshdxr.lineguard",
+      "versionCode": 1
     },
     "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Allow LineGuard to access your photos.",
-          "cameraPermission": "Allow LineGuard to use your camera."
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationWhenInUsePermission": "Allow LineGuard to use your location."
-        }
-      ]
+      "expo-location",
+      "expo-image-picker"
     ]
   }
 }
