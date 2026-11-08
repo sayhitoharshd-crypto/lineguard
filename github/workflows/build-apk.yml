@@ -1,4 +1,5 @@
 
+
 name: Build LineGuard APK
 
 on:
@@ -9,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get project files
+      - name: Checkout project
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -20,8 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Android APK
-        run: npx eas-cli@latest build --platform android --profile preview --non-interactive
+      - name: Link Expo project
+        run: npx eas-cli@latest init --force --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Build APK
+        run: npx eas-cli@latest build --platform android --profile preview --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
