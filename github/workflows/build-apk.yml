@@ -1,5 +1,4 @@
 
-
 name: Build LineGuard APK
 
 on:
@@ -21,12 +20,14 @@ jobs:
           mkdir -p /tmp/lineguard
           unzip -oq lineguard-corrected.zip -d /tmp/lineguard
           cp -a /tmp/lineguard/. .
+          sed -i "s#from '../hooks/useLocation'#from '../useLocation'#" SRC/screens/ReportScreen.js
           rm -f lineguard-corrected.zip
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
         run: npm install
@@ -40,3 +41,4 @@ jobs:
         run: npx eas-cli@latest build --platform android --profile preview --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
