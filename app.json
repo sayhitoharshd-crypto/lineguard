@@ -5,15 +5,19 @@
     "version": "1.0.0",
     "scheme": "lineguard",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./Assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./Assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#7c3aed"
     },
     "android": {
       "package": "com.lineguard.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./Assets/adaptive-icon.png",
+        "backgroundColor": "#a43fd0"
+      },
       "permissions": [
         "CAMERA",
         "RECORD_AUDIO",
@@ -29,7 +33,7 @@
         "NSCameraUsageDescription": "LineGuard uses the camera to capture evidence of line cutting.",
         "NSMicrophoneUsageDescription": "LineGuard records audio with video evidence.",
         "NSPhotoLibraryUsageDescription": "LineGuard lets you attach existing photos or videos as evidence.",
-        "NSLocationWhenInUseUsageDescription": "LineGuard uses your location to tag where the queue is."
+        "NSLocationWhenInUseUsageDescription": "LineGuard uses your location to tag the queue."
       }
     },
     "plugins": [
@@ -43,7 +47,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow LineGuard to use your location to tag the queue."
+          "locationWhenInUsePermission": "Allow LineGuard to use your location."
         }
       ]
     ]
