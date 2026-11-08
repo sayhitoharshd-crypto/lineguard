@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -5,7 +6,7 @@ import { VideoView, useVideoPlayer } from 'expo-video';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../firebase/AuthContext';
-import { useLocation } from '../hooks/useLocation';
+import { useLocation } from '../useLocation';
 import { submitReport } from '../firebase/db';
 import { Btn, toast } from '../components/ui';
 import { C, G, MIN_REP, repLevel } from '../theme';
@@ -22,7 +23,7 @@ export default function ReportScreen({ navigation }) {
   const { place, busy: gpsBusy, error: gpsError, detect, setPlace } = useLocation();
   const [step, setStep] = useState(HOME);
   const [manual, setManual] = useState('');
-  const [media, setMedia] = useState(null); // {uri,type}
+  const [media, setMedia] = useState(null);
   const [note, setNote] = useState('');
   const [sending, setSending] = useState(false);
 
@@ -39,52 +40,111 @@ export default function ReportScreen({ navigation }) {
 
   async function capture(kind) {
     const perm = await ImagePicker.requestCameraPermissionsAsync();
-    if (!perm.granted) { Alert.alert('Camera permission needed', 'Allow camera access in Settings > Apps > LineGuard.'); return; }
-    const r = await ImagePicker.launchCameraAsync({ mediaTypes: kind === 'video' ? ['videos'] : ['images'], quality: 0.7, videoMaxDuration: 30 });
-    if (!r.canceled && r.assets?.[0]) { setMedia({ uri: r.assets[0].uri, type: kind, mimeType: r.assets[0].mimeType || (kind === 'video' ? 'video/mp4' : 'image/jpeg') }); toast(kind === 'video' ? 'Video recorded' : 'Photo taken'); }
+    if (!perm.granted) {
+      Alert.alert('Camera permission needed', 'Allow camera access in Settings > Apps > LineGuard.');
+      return;
+    }
+    const r = await ImagePicker.launchCameraAsync({
+      mediaTypes: kind === 'video' ? ['videos'] : ['images'],
+      quality: 0.7,
+      videoMaxDuration: 30
+    });
+    if (!r.canceled && r.assets?.[0]) {
+      setMedia({
+        uri: r.assets[0].uri,
+        type: kind,
+        mimeType: r.assets[0].mimeType || (kind === 'video' ? 'video/mp4' : 'image/jpeg')
+      });
+      toast(kind === 'video' ? 'Video recorded' : 'Photo taken');
+    }
   }
+
   async function gallery() {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!perm.granted) { Alert.alert('Permission needed', 'Allow photo access in Settings.'); return; }
-    const r = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images', 'videos'], quality: 0.7 });
+    if (!perm.granted) {
+      Alert.alert('Permission needed', 'Allow photo access in Settings.');
+      return;
+    }
+    const r = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      quality: 0.7
+    });
     if (!r.canceled && r.assets?.[0]) {
       const a = r.assets[0];
-      setMedia({ uri: a.uri, type: a.type === 'video' ? 'video' : 'photo', mimeType: a.mimeType || (a.type === 'video' ? 'video/mp4' : 'image/jpeg') });
+      setMedia({
+        uri: a.uri,
+        type: a.type === 'video' ? 'video' : 'photo',
+        mimeType: a.mimeType || (a.type === 'video' ? 'video/mp4' : 'image/jpeg')
+      });
       toast('File selected');
     }
   }
 
   async function send() {
-    if (!locName) { Alert.alert('Location needed', 'Detect or type where this happened.'); return; }
+    if (!locName) {
+      Alert.alert('Location needed', 'Detect or type where this happened.');
+      return;
+    }
     setSending(true);
     try {
       await submitReport({
-        uid: user.uid, locationName: locName,
-        address: manual.trim() || place?.address, lat: manual.trim() ? null : place?.lat, lng: manual.trim() ? null : place?.lng,
-        mediaUri: media?.uri, mediaType: media?.type, mediaMimeType: media?.mimeType, note: note.trim(),
+        uid: user.uid,
+        locationName: locName,
+        address: manual.trim() || place?.address,
+        lat: manual.trim() ? null : place?.lat,
+        lng: manual.trim() ? null : place?.lng,
+        mediaUri: media?.uri,
+        mediaType: media?.type,
+        mediaMimeType: media?.mimeType,
+        note: note.trim()
       });
       setStep(SENT);
     } catch (e) {
-      Alert.alert('Could not submit', 'Check internet and that Firestore and Storage rules are published.\n\n' + (e?.message || ''));
+      Alert.alert(
+        'Could not submit',
+        'Check internet and that Firestore and Storage rules are published.\n\n' + (e?.message || '')
+      );
     }
     setSending(false);
   }
 
-  function reset() { setStep(HOME); setManual(''); setMedia(null); setNote(''); setPlace(null); }
+  function reset() {
+    setStep(HOME);
+    setManual('');
+    setMedia(null);
+    setNote('');
+    setPlace(null);
+  }
 
   const Steps = ({ n }) => (
     <View style={{ flexDirection: 'row', gap: 6, marginBottom: 20 }}>
-      {[1, 2, 3].map((i) => <View key={i} style={{ flex: 1, height: 4, borderRadius: 4, backgroundColor: i < n ? '#fff' : i === n ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)' }} />)}
+      {[1, 2, 3].map((i) => (
+        <View key={i} style={{
+          flex: 1,
+          height: 4,
+          borderRadius: 4,
+          backgroundColor: i < n ? '#fff' : i === n ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)'
+        }} />
+      ))}
     </View>
   );
+
   const Wrap = ({ colors, children }) => (
     <LinearGradient colors={colors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }} edges={['top']}>
-        <ScrollView contentContainerStyle={{ padding: 22, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">{children}</ScrollView>
+        <ScrollView contentContainerStyle={{ padding: 22, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
+          {children}
+        </ScrollView>
       </SafeAreaView>
     </LinearGradient>
   );
-  const H = ({ t, s }) => (<><Text style={{ fontSize: 26, fontWeight: '900', color: '#fff', letterSpacing: -0.5 }}>{t}</Text><Text style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: '700', marginTop: 4, marginBottom: 18 }}>{s}</Text></>);
+
+  const H = ({ t, s }) => (
+    <>
+      <Text style={{ fontSize: 26, fontWeight: '900', color: '#fff', letterSpacing: -0.5 }}>{t}</Text>
+      <Text style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: '700', marginTop: 4, marginBottom: 18 }}>{s}</Text>
+    </>
+  );
 
   if (step === HOME) return (
     <Wrap colors={G.main}>
