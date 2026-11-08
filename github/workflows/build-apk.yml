@@ -16,6 +16,13 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
+      - name: Apply corrected project ZIP
+        run: |
+          mkdir -p /tmp/lineguard
+          unzip -oq lineguard-corrected.zip -d /tmp/lineguard
+          cp -a /tmp/lineguard/. .
+          rm -f lineguard-corrected.zip
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,4 +40,3 @@ jobs:
         run: npx eas-cli@latest build --platform android --profile preview --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
