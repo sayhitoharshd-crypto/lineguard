@@ -1,55 +1,19 @@
-{
-  "expo": {
-    "name": "LineGuard",
-    "slug": "lineguard",
-    "version": "1.0.0",
-    "scheme": "lineguard",
-    "orientation": "portrait",
-    "icon": "./Assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./Assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#7c3aed"
-    },
-    "android": {
-      "package": "com.lineguard.app",
-      "adaptiveIcon": {
-        "foregroundImage": "./Assets/adaptive-icon.png",
-        "backgroundColor": "#a43fd0"
-      },
-      "permissions": [
-        "CAMERA",
-        "RECORD_AUDIO",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "READ_MEDIA_IMAGES",
-        "READ_MEDIA_VIDEO"
-      ]
-    },
-    "ios": {
-      "bundleIdentifier": "com.lineguard.app",
-      "infoPlist": {
-        "NSCameraUsageDescription": "LineGuard uses the camera to capture evidence of line cutting.",
-        "NSMicrophoneUsageDescription": "LineGuard records audio with video evidence.",
-        "NSPhotoLibraryUsageDescription": "LineGuard lets you attach existing photos or videos as evidence.",
-        "NSLocationWhenInUseUsageDescription": "LineGuard uses your location to tag the queue."
-      }
-    },
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Allow LineGuard to access your photos.",
-          "cameraPermission": "Allow LineGuard to use your camera."
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationWhenInUsePermission": "Allow LineGuard to use your location."
-        }
-      ]
-    ]
-  }
-}
+- Creating native directory (./android)
+✔ Created native directory
+- Updating package.json
+✔ Updated package.json
+- Running prebuild
+✖ Prebuild failed
+Error: [android.dangerous]: withAndroidDangerousBaseMod: ENOENT: no such file or directory, open './assets/adaptive-icon.png'
+Error: [android.dangerous]: withAndroidDangerousBaseMod: ENOENT: no such file or directory, open './assets/adaptive-icon.png'
+    at Object.openSync (node:fs:574:18)
+    at Object.readFileSync (node:fs:453:35)
+    at calculateHash (/home/expo/workingdir/build/node_modules/@expo/image-utils/build/Cache.js:19:76)
+    at createCacheKey (/home/expo/workingdir/build/node_modules/@expo/image-utils/build/Cache.js:24:18)
+    at Object.createCacheKeyWithDirectoryAsync (/home/expo/workingdir/build/node_modules/@expo/image-utils/build/Cache.js:32:33)
+    at generateImageAsync (/home/expo/workingdir/build/node_modules/@expo/image-utils/build/Image.js:227:34)
+    at async generateIconAsync (/home/expo/workingdir/build/node_modules/expo/node_modules/@expo/cli/node_modules/@expo/prebuild-config/build/plugins/icons/withAndroidIcons.js:358:11)
+    at async /home/expo/workingdir/build/node_modules/expo/node_modules/@expo/cli/node_modules/@expo/prebuild-config/build/plugins/icons/withAndroidIcons.js:276:21
+    at async Promise.all (index 0)
+    at async generateMultiLayerImageAsync (/home/expo/workingdir/build/node_modules/expo/node_modules/@expo/cli/node_modules/@expo/prebuild-config/build/plugins/icons/withAndroidIcons.js:272:3)
+npx expo prebuild --no-install --platform android exited with non-zero code: 1
