@@ -7,11 +7,21 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": { "image": "./assets/splash.png", "resizeMode": "cover", "backgroundColor": "#7c3aed" },
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#7c3aed"
+    },
     "android": {
       "package": "com.lineguard.app",
-      "adaptiveIcon": { "foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#a43fd0" },
-      "permissions": ["CAMERA", "RECORD_AUDIO", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "READ_MEDIA_IMAGES", "READ_MEDIA_VIDEO"]
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_MEDIA_IMAGES",
+        "READ_MEDIA_VIDEO"
+      ]
     },
     "ios": {
       "bundleIdentifier": "com.lineguard.app",
@@ -23,8 +33,19 @@
       }
     },
     "plugins": [
-      ["expo-image-picker", { "photosPermission": "Allow LineGuard to access your photos.", "cameraPermission": "Allow LineGuard to use the camera." }],
-      ["expo-location", { "locationWhenInUsePermission": "Allow LineGuard to use your location to tag the queue." }]
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow LineGuard to access your photos.",
+          "cameraPermission": "Allow LineGuard to use your camera."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow LineGuard to use your location to tag the queue."
+        }
+      ]
     ]
   }
 }
