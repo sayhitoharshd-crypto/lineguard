@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -32,13 +33,20 @@ jobs:
       - name: Generate Android project
         run: npx expo prebuild --platform android --no-install
 
-      - name: Build debug APK
+      - name: Bundle JavaScript
+        run: |
+          mkdir -p android/app/src/main/assets
+          npx expo export:embed --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+      - name: Build standalone APK
         working-directory: android
         run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: LineGuard-Android-APK
+          name: LineGuard-Standalone-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 14
+
