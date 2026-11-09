@@ -16,9 +16,16 @@ export default function LoginScreen({ onBrowse }) {
     try {
       await fn();
     } catch (e) {
-      Alert.alert('Sign in failed', String(e?.message || e));
+      Alert.alert(
+        'Sign in failed',
+        'Code: ' + (e?.code || 'unknown') +
+        '\nMessage: ' + (e?.message || String(e)) +
+        '\nName: ' + (e?.name || 'unknown') +
+        '\nDetails: ' + JSON.stringify(e?.customData || {})
+      );
+    } finally {
+      setBusy('');
     }
-    setBusy('');
   };
 
   return (
@@ -101,7 +108,7 @@ export default function LoginScreen({ onBrowse }) {
                 if (!googleReady) {
                   Alert.alert(
                     'Google login not set up yet',
-                    'Paste your Web Client ID in SRC/firebase/AuthContext.js. Use "Use anonymously" meanwhile.'
+                    'Google sign-in is not configured yet. Use "Use anonymously" meanwhile.'
                   );
                   return;
                 }
